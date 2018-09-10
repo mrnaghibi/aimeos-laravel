@@ -47,7 +47,11 @@ class JsonapiController extends Controller
                 session()->setId($request->getQueryParams()['_token']);
                 Session::start();
                 $sessionId = session()->getId();
-                Session::put('_token', $sessionId);
+                if (!strcmp(session()->get('_token'), $request->getQueryParams()['_token']))
+                    Session::put('_token', $sessionId);
+                else
+                    throw new AcceptException('_token Is Not Valid.');
+
             } else {
                 throw new AcceptException('_token Must be equal 40 Characters.');
             }
@@ -75,10 +79,12 @@ class JsonapiController extends Controller
                 Session::put('_token', $sessionId);
             } else if (strlen($request->getQueryParams()['_token']) == 40) {
                 session()->setId($request->getQueryParams()['_token']);
-                Session::start();
+                session::start();
                 $sessionId = session()->getId();
-                Session::put('_token', $sessionId);
-
+                if (!strcmp(session()->get('_token'), $request->getQueryParams()['_token']))
+                    Session::put('_token', $sessionId);
+                else
+                    throw new AcceptException('_token Is Not Valid.');
             } else {
                 throw new AcceptException('_token Must be equal 40 Characters.');
             }
@@ -99,8 +105,10 @@ class JsonapiController extends Controller
                 session()->setId($request->getQueryParams()['_token']);
                 Session::start();
                 $sessionId = session()->getId();
-                Session::put('_token', $sessionId);
-            } else
+                if (!strcmp(session()->get('_token'), $request->getQueryParams()['_token']))
+                    Session::put('_token', $sessionId);
+                else
+                    throw new AcceptException('_token Is Not Valid.');            } else
                 throw new AcceptException('_token Must be equal 40 Characters.');
         } else {
             throw new AcceptException('_token is Required.');
@@ -122,8 +130,10 @@ class JsonapiController extends Controller
                 session()->setId($request->getQueryParams()['_token']);
                 Session::start();
                 $sessionId = session()->getId();
-                Session::put('_token', $sessionId);
-            } else
+                if (!strcmp(session()->get('_token'), $request->getQueryParams()['_token']))
+                    Session::put('_token', $sessionId);
+                else
+                    throw new AcceptException('_token Is Not Valid.');            } else
                 throw new AcceptException('_token Must be equal 40 Characters.');
         } else {
             throw new AcceptException('_token is Required.');
@@ -153,12 +163,15 @@ class JsonapiController extends Controller
                 session()->setId($request->getQueryParams()['_token']);
                 Session::start();
                 $sessionId = session()->getId();
-                Session::put('_token', $sessionId);
-            } else
+                if (!strcmp(session()->get('_token'), $request->getQueryParams()['_token']))
+                    Session::put('_token', $sessionId);
+                else
+                    throw new AcceptException('_token Is Not Valid.');            } else
                 throw new AcceptException('_token Must be equal 40 Characters.');
         } else {
             throw new AcceptException('_token is Required.');
-        }        return $this->createClient()->put($request, new Response());
+        }
+        return $this->createClient()->put($request, new Response());
     }
 
 
