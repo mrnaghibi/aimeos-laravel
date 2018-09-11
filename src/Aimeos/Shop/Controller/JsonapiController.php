@@ -24,6 +24,7 @@ use Lcobucci\JWT\Parser;
 use Laravel\Passport\Token;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 /**
@@ -143,7 +144,7 @@ class JsonapiController extends Controller
             try {
                 $user = $this->checkTokenForUser($request->getQueryParams()['access_token']);
             } catch (\Exception $e) {
-                throw new AuthenticationException;
+                throw new ModelNotFoundException('This User Does not exist!');
             }
         }
         return $this->createClient()->post($request, new Response());
