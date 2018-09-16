@@ -16,6 +16,7 @@ use Lcobucci\JWT\Parser;
 use Laravel\Passport\Token;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Service providing the context objects
@@ -253,7 +254,8 @@ class Context
         try{
             $user = $this->checkTokenForUser(request('access_token'));
         }catch (\Exception $e){
-            $user = null;
+            //$user = null;
+            throw new ModelNotFoundException('This User Does not exist!');
         }
 
         if( $user ) {
@@ -261,6 +263,7 @@ class Context
             $context->setEditor( $user->name );
         } else {
             $context->setEditor( \Request::ip() );
+            throw new ModelNotFoundException('This User Does not exist!');
         }
         return $context;
     }
