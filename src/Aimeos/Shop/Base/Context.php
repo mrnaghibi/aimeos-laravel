@@ -252,12 +252,14 @@ class Context
             $context->setEditor( \Request::ip() );
         }*/
         try{
-            $user = $this->checkTokenForUser(request('access_token'));
+            $accessToken = request('access_token');
+            if (!$accessToken)
+                $accessToken = request('data')['access_token'];
+            $user = $this->checkTokenForUser($accessToken);
         }catch (\Exception $e){
             $user = null;
             //throw new ModelNotFoundException('This User Does not exist!');
         }
-
         if( $user ) {
             $context->setUserId( $user->id );
             $context->setEditor( $user->name );
